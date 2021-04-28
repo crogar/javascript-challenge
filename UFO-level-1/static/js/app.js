@@ -4,7 +4,7 @@ var tableData = data;
 // Select submit button
 var filter_btn = d3.select("#filter-btn");
 // Select the form
-var form = d3.select(".form-group");
+var form = d3.select("form");
 // Select table body
 var tbody = d3.select("#ufo-table > tbody")
 
@@ -29,6 +29,7 @@ function filter_events(){
     // Get the value property of the input element
     var inputValue = event_date.property("value");
     console.log(inputValue)
+    // everytime the user request a new search, we'll empty the html content of tbody
     tbody.html("");
     var filteredData = tableData.filter(event => event.datetime === inputValue);
     populate_table(filteredData);
