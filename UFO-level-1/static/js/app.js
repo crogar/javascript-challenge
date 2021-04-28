@@ -24,10 +24,8 @@ populate_table(tableData);
 function filter_events(){
     // Prevent the page from refreshing
     d3.event.preventDefault();
-    // creating a reference to the input textbox in the form
-    var event_date = d3.select("#datetime");
     // Get the value property of the input element
-    var inputValue = event_date.property("value");
+    var inputValue = d3.select("#datetime").property("value");
     console.log(inputValue)
     // everytime the user request a new search, we'll empty the html content of tbody
     tbody.html("");
