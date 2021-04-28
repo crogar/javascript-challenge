@@ -30,13 +30,12 @@ function filter_events(){
     // everytime the user request a new search, we'll empty the html content of tbody
     tbody.html("");
     var filteredData = tableData.filter(event => event.datetime === inputValue);
-    if (filteredData.length == 0){
-        d3.select("#ufo-table > thead").html("")
-        var thead = d3.select("#ufo-table > thead")
-        var row = thead.append('tr')
-        row.append("tr").text   
-
-    }else{populate_table(filteredData);}
+    if (filteredData.length === 0){
+        var row = tbody.append('tr')
+        row.append("tr").text("WOW I Can't believe no one remembers what happened that day, where was my camera whe I needed the most!!!")
+    }else{
+        populate_table(filteredData);
+    }
 }
 
 
