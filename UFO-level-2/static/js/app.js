@@ -19,44 +19,39 @@ function populate_table(table_data){
       });
 }
 
-function populate_dropdowns()
+function populate_dropdowns(table_data)
 {
     var options = d3.selectAll("select");
     options.each(function(d,i) {
         var category = d3.select(this).attr("id");
-        var results = tableData.map(element => element[category])
+        var results = table_data.map(element => element[category])
         var uniq = [...new Set(results)];
-        if (category != "datetime")
-        {
+        if (category != "datetime"){
             uniq.sort();
         }
-        console.log(uniq)
+        // console.log(uniq)
         uniq.forEach((option_select)=>{
             var selector = d3.select("#"+category)
             var option = selector.append("option")
             option.text(option_select)
         });
-      })
-
-
+      });
 }
 
 // This function will run when the whole html page completely loads 
 
 window.onload = function() {
     populate_table(tableData);
-    populate_dropdowns();
+    populate_dropdowns(tableData);
     console.log("I'm all ready, yeah!!")
 };
-
-
 
 
 function filter_events(){
     // Prevent the page from refreshing
     d3.event.preventDefault();
     // Get the value property of the input element
-    var inputValue = d3.select("#datetime").property("value");
+    var inputValue = d3.select("#datetime_").property("value");
     console.log(inputValue)
     // everytime the user request a new search, we'll empty the html content of tbody
     tbody.html("");
@@ -75,6 +70,12 @@ function filter_events(){
     console.log(heights)
 }
 
+d3.selectAll("select").on("change", function() {
+    // you can select the element just like any other selection
+    var e = d3.select(this).attr("id");
+    // var coin = e.options[e.selectedIndex].text;
+    console.log(e)
+  });
 
 filter_btn.on("click",filter_events);
 form.on("submit",filter_events);
