@@ -18,7 +18,38 @@ function populate_table(table_data){
         });
       });
 }
-populate_table(tableData);
+
+function populate_dropdowns()
+{
+    var options = d3.selectAll("select");
+    options.each(function(d,i) {
+        var category = d3.select(this).attr("id");
+        var results = tableData.map(element => element[category])
+        var uniq = [...new Set(results)];
+        if (category != "datetime")
+        {
+            uniq.sort();
+        }
+        console.log(uniq)
+        uniq.forEach((option_select)=>{
+            var selector = d3.select("#"+category)
+            var option = selector.append("option")
+            option.text(option_select)
+        });
+      })
+
+
+}
+
+// This function will run when the whole html page completely loads 
+
+window.onload = function() {
+    populate_table(tableData);
+    populate_dropdowns();
+    console.log("I'm all ready, yeah!!")
+};
+
+
 
 
 function filter_events(){
