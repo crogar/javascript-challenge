@@ -1,6 +1,5 @@
 // from data.js
 var tableData = data;
-
 // Select submit button
 var filter_btn = d3.select("#filter-btn");
 // Select the form
@@ -21,19 +20,17 @@ function populate_table(table_data){
       });
 }
 // Populates dropdown menus
-function populate_dropdowns(table_data,index)
+function populate_dropdowns(table_data)
 {
     var options = d3.selectAll("select");
     options.each(function(d,i) {
-        d3.select(this).html("")
-        d3.select(this).append("option").text("Any")
         var category = d3.select(this).attr("id");
-        var results = table_data.map(element => element[category])
-        var uniq = [...new Set(results)];
+        var results = table_data.map(element => element[category]) // obtaining values for each specific key-value pair element in our dataset
+        var uniq = [...new Set(results)];  // usit set function to get unique elements in our arrays.
         if (category != "datetime"){
             uniq.sort();
-        }
-        uniq.forEach((option_select)=>{
+        } // Once our dataset elements are unique and sorted out, we will append those options to its respective select tag
+        uniq.forEach((option_select)=>{  
             var selector = d3.select("#"+category)
             var option = selector.append("option")
             option.text(option_select)
@@ -48,7 +45,7 @@ window.onload = function() {
     console.log("I'm all ready, yeah!!")
 };
 
-function filter_events(){
+function filter_events(index){
     var filteredData = tableData
     var options = d3.selectAll("select");
     for(var i=0;i<filters.length;i++){
@@ -64,16 +61,16 @@ function filter_events(){
     d3.event.preventDefault();
     // everytime the user request a new search, we'll empty the html content of tbody
     tbody.html("");
-    // populate_dropdowns(filteredData,obj)
+    // populates table with the filtered data
     populate_table(filteredData)
 }
 
 d3.selectAll("select").on("change", function() {
     // obtaining the value that has changed
-    var value = this.options[this.selectedIndex].text;
-    var index = this.options[this.selectedIndex].index;
+    // var value = this.options[this.selectedIndex].text;
+    // var index = this.options[this.selectedIndex].index;
     var selected_filters = d3.selectAll("select")
-    // filter_events(obj,index,value );
+    // getting the current value of the options for each Select tag
     selected_filters.each(function(d,i) {
         filters[i] = this.options[this.selectedIndex].text;
       });
