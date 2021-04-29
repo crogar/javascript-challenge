@@ -91,6 +91,3 @@ d3.selectAll("select").on("change", function() {
     console.log(filters)
     filter_events();
   });
-
-// filter_btn.on("click",filter_events);
-// form.on("submit",filter_events);
