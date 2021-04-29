@@ -37,6 +37,7 @@ function populate_dropdowns(table_data)
             var option = selector.append("option")
             option.text(option_select)
         });
+        // When we update our dataset we
         var select = this;
         for(var j = 0;j < select.options.length;j++){
             if(select.options[j].value == filters[i] ){
@@ -53,15 +54,16 @@ window.onload = function() {
     console.log("I'm all ready, yeah!!")
 };
 
-function filter_events(index){
+// This function filters the data based on the applied filters
+function filter_events(){
     var filteredData = tableData
     var options = d3.selectAll("select");
     for(var i=0;i<filters.length;i++){
-        element_id = options["_groups"][0][i].id
+        element_id = options["_groups"][0][i].id // this variable will give us the ID for the current <select> index
         if(filters[i]=="Any"){
             continue
         }
-        filteredData = filteredData.filter(event => event[element_id] === filters[i]);
+        filteredData = filteredData.filter(event => event[element_id] === filters[i]); // the dataset is overwritten every time we look for newly applied filters
         console.log(filteredData)
     }
 
@@ -73,7 +75,7 @@ function filter_events(index){
     populate_table(filteredData)
     populate_dropdowns(filteredData);
 }
-
+// This section records all the applied filters everytime any of the <select> tag values change
 d3.selectAll("select").on("change", function() {
     // obtaining the value that has changed
     // var value = this.options[this.selectedIndex].text;
@@ -85,7 +87,7 @@ d3.selectAll("select").on("change", function() {
       });
     filter_events();
   });
-
+    // This function Resets all the filters and shows us the original dataset
   d3.select("#reset").on("click", function() {
     // Setting our of all options as Any
     filters=["Any","Any","Any","Any","Any"]
