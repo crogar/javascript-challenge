@@ -20,7 +20,7 @@ function populate_table(table_data){
         });
       });
 }
-
+// Populates dropdown menus
 function populate_dropdowns(table_data,index)
 {
     var options = d3.selectAll("select");
@@ -33,7 +33,6 @@ function populate_dropdowns(table_data,index)
         if (category != "datetime"){
             uniq.sort();
         }
-        // console.log(uniq)
         uniq.forEach((option_select)=>{
             var selector = d3.select("#"+category)
             var option = selector.append("option")
@@ -43,40 +42,31 @@ function populate_dropdowns(table_data,index)
 }
 
 // This function will run when the whole html page completely loads 
-
 window.onload = function() {
     populate_table(tableData);
     populate_dropdowns(tableData);
     console.log("I'm all ready, yeah!!")
 };
 
-
 function filter_events(){
     // console.log(value)
     var filteredData = tableData
     var options = d3.selectAll("select");
     for(var i=0;i<filters.length;i++){
-        console.log(options["_groups"][0][i].id)
+        element_id = options["_groups"][0][i].id
         if(filters[i]=="Any"){
             continue
         }
-        filteredData = filteredData.filter(event => event[options["_groups"][0][i].id] === filters[i]);
+        filteredData = filteredData.filter(event => event[element_id] === filters[i]);
         console.log(filteredData)
     }
+
     // Prevent the page from refreshing
     d3.event.preventDefault();
-    // Get the value property of the input element
     // everytime the user request a new search, we'll empty the html content of tbody
     tbody.html("");
     // populate_dropdowns(filteredData,obj)
-    
     populate_table(filteredData)
-    // Resizing our stars div to cover only 75% of the screen height 
-    var heights = window.innerWidth;
-    d3.select(".stars").style.height = (heights*0.75) + "px";
-    d3.select(".stars2").style.height = (heights*0.75) + "px";
-    d3.select(".stars3").style.height = (heights*0.75) + "px";
-    // console.log(heights)
 }
 
 d3.selectAll("select").on("change", function() {
