@@ -24,6 +24,8 @@ function populate_dropdowns(table_data)
 {
     var options = d3.selectAll("select");
     options.each(function(d,i) {
+        d3.select(this).html("")
+        d3.select(this).append("option").text("Any")
         var category = d3.select(this).attr("id");
         var results = table_data.map(element => element[category]) // obtaining values for each specific key-value pair element in our dataset
         var uniq = [...new Set(results)];  // usit set function to get unique elements in our arrays.
@@ -35,6 +37,12 @@ function populate_dropdowns(table_data)
             var option = selector.append("option")
             option.text(option_select)
         });
+        var select = this;
+        for(var j = 0;j < select.options.length;j++){
+            if(select.options[j].value == filters[i] ){
+                select.options[j].selected = true;
+            }
+        }
       });
 }
 
@@ -63,6 +71,7 @@ function filter_events(index){
     tbody.html("");
     // populates table with the filtered data
     populate_table(filteredData)
+    populate_dropdowns(filteredData);
 }
 
 d3.selectAll("select").on("change", function() {
@@ -75,4 +84,15 @@ d3.selectAll("select").on("change", function() {
         filters[i] = this.options[this.selectedIndex].text;
       });
     filter_events();
+  });
+
+  d3.select("#reset").on("click", function() {
+    // Setting our of all options as Any
+    filters=["Any","Any","Any","Any","Any"]
+    var selected_filters = d3.selectAll("select")
+    selected_filters.each(function(d,i) {
+        this.selectedIndex = 0;
+      });
+      populate_table(tableData); // repopulating our table with the original tableData
+      populate_dropdowns(tableData); // repopulating our table with the original tableData
   });
