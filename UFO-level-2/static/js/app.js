@@ -49,7 +49,6 @@ window.onload = function() {
 };
 
 function filter_events(){
-    // console.log(value)
     var filteredData = tableData
     var options = d3.selectAll("select");
     for(var i=0;i<filters.length;i++){
@@ -78,6 +77,5 @@ d3.selectAll("select").on("change", function() {
     selected_filters.each(function(d,i) {
         filters[i] = this.options[this.selectedIndex].text;
       });
-    console.log(filters)
     filter_events();
   });
