@@ -19,10 +19,12 @@ function populate_table(table_data){
       });
 }
 
-function populate_dropdowns(table_data)
+function populate_dropdowns(table_data,index)
 {
     var options = d3.selectAll("select");
     options.each(function(d,i) {
+        d3.select(this).html("")
+        d3.select(this).append("option").text("Any")
         var category = d3.select(this).attr("id");
         var results = table_data.map(element => element[category])
         var uniq = [...new Set(results)];
@@ -47,35 +49,32 @@ window.onload = function() {
 };
 
 
-function filter_events(){
+function filter_events(obj, index, value){
+    // console.log(value)
+    var filteredData = tableData.filter(event => event[d3.select(obj).attr("id")] === value);
     // Prevent the page from refreshing
     d3.event.preventDefault();
     // Get the value property of the input element
-    var inputValue = d3.select("#datetime_").property("value");
-    console.log(inputValue)
     // everytime the user request a new search, we'll empty the html content of tbody
     tbody.html("");
-    var filteredData = tableData.filter(event => event.datetime === inputValue);
-    if (filteredData.length === 0){
-        var row = tbody.append('tr')
-        row.append("tr").text("WOW I Can't believe no one remembers what happened that day, where was my camera when I needed the most!!!")
-    }else{
-        populate_table(filteredData);
-    }
+    // populate_dropdowns(filteredData,obj)
+    populate_table(filteredData)
     // Resizing our stars div to cover only 75% of the screen height 
     var heights = window.innerWidth;
     d3.select(".stars").style.height = (heights*0.75) + "px";
     d3.select(".stars2").style.height = (heights*0.75) + "px";
     d3.select(".stars3").style.height = (heights*0.75) + "px";
-    console.log(heights)
+    // console.log(heights)
 }
 
 d3.selectAll("select").on("change", function() {
-    // you can select the element just like any other selection
-    var e = d3.select(this).attr("id");
-    // var coin = e.options[e.selectedIndex].text;
-    console.log(e)
+    // obtaining the value that has changed
+    var value = this.options[this.selectedIndex].text;
+    var index = this.options[this.selectedIndex].index;
+    obj = this
+    console.log(obj)
+    // filter_events(obj,index,value );
   });
 
-filter_btn.on("click",filter_events);
-form.on("submit",filter_events);
+// filter_btn.on("click",filter_events);
+// form.on("submit",filter_events);
